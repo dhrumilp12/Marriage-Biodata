@@ -51,7 +51,7 @@ export default function LandingPage() {
   const detailsContent = {
     personalInfo: {
       name: 'Dhrumil Bhikhabhai Patel',
-      age: '21',
+      age: '23',
       height: "5'5\"",
       education: 'B.Tech in Computer Engineering',
       occupation: 'Software Developer (Student).'
@@ -248,11 +248,6 @@ export default function LandingPage() {
             <li>
               <a onClick={handleFamilyClick}>
                 Family
-              </a>
-            </li>
-            <li>
-              <a onClick={handleExpectationClick}>
-                Expectation
               </a>
             </li>
             
