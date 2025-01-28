@@ -2,10 +2,10 @@ import { useState, useEffect } from 'react';
 import './LandingPage.css';
 
 // Import your images
-import Image1 from '../assets/image1.jpg';
-import Image2 from '../assets/image2.jpg';
-import Image3 from '../assets/image3.jpg';
-import Image4 from '../assets/image4.jpg';
+import Image1 from 'src/assets/image1.jpg';
+import Image2 from 'src/assets/image2.jpg';
+import Image3 from 'src/assets/image3.jpg';
+import Image4 from 'src/assets/image4.jpg';
 
 export default function LandingPage() {
   // Array of images
