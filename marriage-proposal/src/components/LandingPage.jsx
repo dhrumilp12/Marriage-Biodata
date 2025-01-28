@@ -1,16 +1,17 @@
 import { useState, useEffect } from 'react';
 import './LandingPage.css';
 
-// Import your images
-import Image1 from '@/assets/image1.jpg';
-import Image2 from '@/assets/image2.jpg';
-import Image3 from '@/assets/image3.jpg';
-import Image4 from '@/assets/image4.jpg';
 
+// Array of images
+const images = [
+  'https://sky-warrior.s3.us-east-2.amazonaws.com/images/Image1.jpg',
+  'https://sky-warrior.s3.us-east-2.amazonaws.com/images/Image2.jpg',
+  'https://sky-warrior.s3.us-east-2.amazonaws.com/images/Image3.jpg',
+  'https://sky-warrior.s3.us-east-2.amazonaws.com/images/Image4.jpg',
+];
 
 export default function LandingPage() {
-  // Array of images
-  const images = [Image1, Image2, Image3, Image4];
+  
 
   // Current active index
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -109,7 +110,7 @@ export default function LandingPage() {
     }, 3000); // Change image every 3 seconds
 
     return () => clearInterval(interval); // Cleanup on unmount
-  }, [images.length]);
+  }, []);
 
   // Determine indices for previous and next images
   const prevIndex = (currentIndex - 1 + images.length) % images.length;
