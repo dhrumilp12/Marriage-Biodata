@@ -1,0 +1,739 @@
+/* ------------------------------
+   1) BASE + RESET
+--------------------------------*/
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Playfair Display', serif;
+  background: #000; /* fallback if anything fails */
+  color: #fff;
+  overflow-x: hidden; /* optional if you have wide content */
+}
+
+/* ------------------------------
+   2) MAIN LAYOUT
+--------------------------------*/
+.landing {
+  display: flex;
+  height: 100vh;
+}
+
+/* ============================
+   LEFT SECTION
+============================ */
+.landing-left {
+  width: 70%;
+  position: relative;
+  overflow: hidden; /* Hide overflowing slider content */
+}
+
+/* 1) Grayscale background image behind everything */
+.landing-left::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url('/src/assets/hero.jpg') center center no-repeat;
+  background-size: cover;
+  filter: grayscale(100%);
+  z-index: -2;
+}
+
+/* 2) Partial black overlay covering the left portion */
+.landing-left::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 40%; 
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: -1;
+}
+
+/* Text container sits on top */
+.landing-content {
+  width: 40%;
+  position: relative;
+  z-index: 1; /* Above ::before and ::after */
+  padding: 3rem;
+}
+
+/* The name/title */
+.landing-name {
+  font-size: 3rem;
+  line-height: 1.2;
+  margin-bottom: 1rem;
+  word-break: keep-all;
+  color: #FFD700;
+}
+
+/* Social icons */
+.social-icons {
+  display: flex;
+  gap: 1rem;
+  margin: 1rem 0;
+}
+
+.social-icons a {
+  color: #fff;
+  font-size: 1.5rem;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.social-icons a:hover {
+  color: #FFD700; /* gold on hover */
+}
+
+/* Short biography text */
+.landing-text {
+  font-size: 1.1rem;
+  line-height: 1.5;
+  margin-top: 3rem;
+  width: 100%;
+}
+
+/* ============================
+   IMAGE SLIDER
+============================ */
+.image-slider {
+  margin-top: 2rem;
+  width: 100%; /* Make slider take the full width of its container */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative; /* For proper positioning of elements */
+  overflow: hidden; /* Hide any overflowing images */
+  height: 140px;
+}
+
+.slider-container {
+  display: flex;
+  gap: 20px; /* Spacing between images */
+  justify-content: center;
+  align-items: center;
+  transition: transform 0.5s ease-in-out;
+  width: 90%; /* Contain the slider content within the container */
+  max-width: 700px; /* Limit the maximum width on larger screens */
+}
+
+.slider-item {
+  flex: 0 0 auto;
+  transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+}
+
+.slider-image {
+  width: 100%;
+  max-width: 200px; /* Adjust the max width of the images */
+  height: auto; /* Maintain aspect ratio */
+  border: 2px solid #fff;
+  border-radius: 4px;
+  transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.slider-item.active .slider-image {
+  transform: scale(1.1);
+  border-color: #FFD700;
+  box-shadow: 0 0 10px #FFD700;
+}
+
+.slider-item:not(.active) .slider-image {
+  opacity: 0.8;
+}
+
+.nav-button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(255, 215, 0, 0.7); /* Semi-transparent gold */
+  border: none;
+  color: #000;
+  font-size: 1rem;
+  padding: 0.5rem 0.7rem;
+  cursor: pointer;
+  border-radius: 50%;
+  z-index: 10;
+  transition: background-color 0.3s ease;
+}
+
+.nav-button:hover {
+  background-color: rgba(255, 215, 0, 1);
+}
+
+.prev-button {
+  left: 10px;
+}
+
+.next-button {
+  right: 10px;
+}
+
+/* ============================
+   RIGHT SECTION (NAV)
+============================ */
+.landing-right {
+  width: 30%;
+  background-color: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.landing-right nav ul {
+  list-style: none;
+  text-align: right;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Thin bottom line for each nav item */
+.landing-right nav li {
+  margin: 1.2rem 0;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #fff;
+  width: 200%;
+}
+
+.landing-right nav a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 1.2rem;
+  transition: color 0.3s ease;
+  cursor: pointer;
+}
+
+.landing-right nav a:hover {
+  color: #FFD700;
+}
+
+/* ============================
+   COMMON MODAL STYLES
+============================ */
+.modal-overlay {
+  /* Common overlay styles */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.horoscope-modal,
+.details-modal,
+.family-modal,
+.expectation-modal {
+  /* Common modal styles */
+  position: relative;
+  background: #111;
+  padding: 2rem;
+  border-radius: 12px;
+  max-width: 800px;
+  width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
+  border: 2px solid #FFD700;
+  animation: modalSlideIn 0.3s ease-out;
+}
+
+@keyframes modalSlideIn {
+  from { transform: translateY(-100px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.close-button {
+  /* Common close button styles */
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  background-color: #FFD700;
+  color: #000;
+  border: none;
+  border-radius: 50%;
+  font-size: 1.5rem;
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  text-align: center;
+}
+
+/* ============================
+   HOROSCOPE MODAL CONTENT STYLES
+============================ */
+.horoscope-modal h2,
+.details-modal h2,
+.family-modal h2,
+.expectation-modal h2 {
+  color: #FFD700;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.astro-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin: 1rem 0;
+}
+
+.astro-card {
+  background: rgba(255, 215, 0, 0.05);
+  padding: 1.5rem;
+  border-radius: 8px;
+  text-align: center;
+  border: 1px solid rgba(255, 215, 0, 0.2);
+}
+
+.astro-icon {
+  width: 50px;
+  height: 50px;
+  margin: 0 auto 1rem;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.sun {
+  background-image: url('https://img.icons8.com/color/96/sun--v1.png');
+}
+
+.moon {
+  background-image: url('https://img.icons8.com/color/96/moon-symbol.png');
+}
+
+.birth {
+  background-image: url('https://img.icons8.com/color/96/birthday-cake.png');
+}
+
+.planetary-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin: 2rem 0;
+}
+
+.planet-card {
+  background: #1a1a1a;
+  padding: 1.5rem;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.planet-icon {
+  width: 50px;
+  height: 50px;
+  margin: 0 auto 1rem;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.mercury { background-image: url('https://img.icons8.com/color/96/mercury-planet.png'); }
+.venus { background-image: url('https://img.icons8.com/color/96/venus-planet.png'); }
+.mars { background-image: url('https://img.icons8.com/color/96/mars-planet.png'); }
+
+.planet-card h4 {
+  color: #FFD700;
+  margin-bottom: 0.5rem;
+}
+
+.position {
+  color: #FFD700;
+  font-weight: bold;
+  margin: 0.5rem 0;
+}
+
+.influence {
+  color: #fff;
+}
+
+.traits-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin: 2rem 0;
+}
+
+.trait-col {
+  padding: 1.5rem;
+  border-radius: 8px;
+}
+
+.positive {
+  background: rgba(76, 175, 80, 0.1);
+  border: 1px solid #4CAF50;
+}
+
+.challenge {
+  background: rgba(244, 67, 54, 0.1);
+  border: 1px solid #F44336;
+}
+
+.trait-item {
+  padding: 0.8rem;
+  margin: 0.5rem 0;
+  background: rgba(255,255,255,0.05);
+  border-radius: 4px;
+}
+
+.matches-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.zodiac-match {
+  text-align: center;
+  padding: 1rem;
+  background: #1a1a1a;
+  border-radius: 8px;
+}
+
+.zodiac-icon {
+  width: 40px;
+  height: 40px;
+  margin: 0 auto 0.5rem;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.aries { background-image: url('https://img.icons8.com/color/96/aries.png'); }
+.leo { background-image: url('https://img.icons8.com/color/96/leo.png'); }
+.libra { background-image: url('https://img.icons8.com/color/96/libra.png'); }
+
+.section-divider {
+  height: 1px;
+  background: rgba(255, 215, 0, 0.2);
+  margin: 2rem 0;
+}
+
+/* ============================
+   DETAILS MODAL STYLES
+============================ */
+.details-modal {
+  /* Inherited styles from .horoscope-modal */
+}
+
+.details-modal h2 {
+  /* Inherited styles */
+}
+
+/* ============================
+   FAMILY MODAL STYLES
+============================ */
+.family-modal {
+  /* Inherited styles from .horoscope-modal */
+}
+
+.family-section {
+  margin-bottom: 1.5rem;
+}
+
+.family-section h3 {
+  color: #FFD700;
+  margin-bottom: 0.5rem;
+}
+
+.family-section p {
+  color: #fff;
+  line-height: 1.6;
+}
+
+/* ============================
+   EXPECTATION MODAL STYLES
+============================ */
+.expectation-modal {
+  /* Inherited styles from .horoscope-modal */
+}
+
+.expectation-section {
+  margin-bottom: 1.5rem;
+}
+
+.expectation-section h3 {
+  color: #FFD700;
+  margin-bottom: 0.5rem;
+}
+
+.expectation-section ul {
+  list-style: disc;
+  padding-left: 20px;
+}
+
+.expectation-section ul li {
+  margin-bottom: 0.5rem;
+}
+
+.expectation-section ul li strong {
+  color: #FFD700;
+}
+
+/* ============================
+   COMMON MODAL CONTENT STYLES
+============================ */
+.details-section {
+  margin-bottom: 1.5rem;
+}
+
+.details-section h3 {
+  color: #FFD700;
+  margin-bottom: 0.5rem;
+}
+
+.details-section ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.details-section ul li {
+  margin-bottom: 0.5rem;
+}
+
+.details-section ul li strong {
+  color: #FFD700;
+}
+
+/* ============================
+   MODAL STYLES FOR IMAGES
+============================ */
+.modal-content {
+  position: relative;
+  max-width: 90%;
+  max-height: 90%;
+}
+
+.modal-image {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+.close-button {
+  /* Common close button styles */
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  background-color: #FFD700;
+  color: #000;
+  border: none;
+  border-radius: 50%;
+  font-size: 1.5rem;
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  text-align: center;
+}
+
+/* ------------------------------
+   3) RESPONSIVE ADJUSTMENTS
+--------------------------------*/
+@media (max-width: 768px) {
+  .landing {
+    flex-direction: column;
+    height: auto;
+    min-height: 100vh;
+  }
+
+  .landing-left,
+  .landing-right {
+    width: 100% !important;
+    height: auto;
+  }
+
+  .landing-left::after {
+    width: 100%;
+    background: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.8) 0%,
+      transparent 100%
+    );
+  }
+
+  .landing-content {
+    padding: 2rem 1rem;
+    max-width: 100%;
+    text-align: center;
+    width: auto;
+  }
+
+  .landing-name {
+    font-size: 2.2rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .social-icons {
+    justify-content: center;
+    margin: 1.5rem 0;
+  }
+
+  .landing-text {
+    max-width: 100%;
+    font-size: 1rem;
+    padding: 0 1rem;
+  }
+
+  .landing-right {
+    padding: 2rem 0;
+  }
+
+  .landing-right nav ul {
+    justify-content: center;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .landing-right nav li {
+    margin: 0.5rem;
+  }
+
+  .landing-right nav a {
+    font-size: 1rem;
+    padding: 0.5rem;
+  }
+
+  .image-slider {
+    margin-top: 1rem;
+    width: 80%;
+    max-width: 300px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .nav-button {
+    font-size: 1.5rem;
+    padding: 0.4rem 0.8rem;
+  }
+
+  .slider-container {
+    gap: 10px; /* Reduced gap on smaller screens */
+  }
+
+  .slider-item.active .slider-image {
+    transform: scale(1.05);
+    box-shadow: 0 0 8px #FFD700;
+  }
+
+  .slider-image {
+    width: 150px;
+    height: 100px;
+  }
+
+  /* Horoscope, Details, Family & Expectation Modal Responsive */
+  .horoscope-modal,
+  .details-modal,
+  .family-modal,
+  .expectation-modal {
+    padding: 1rem;
+  }
+
+  .astro-grid,
+  .planetary-grid,
+  .traits-grid,
+  .matches-grid,
+  .details-section ul,
+  .family-section,
+  .expectation-section ul {
+    grid-template-columns: 1fr;
+  }
+
+  .planet-icon,
+  .zodiac-icon {
+    width: 40px;
+    height: 40px;
+  }
+
+  .planet-card,
+  .astro-card,
+  .zodiac-match,
+  .family-section,
+  .expectation-section {
+    padding: 1rem;
+  }
+
+  .trait-item {
+    padding: 0.6rem;
+  }
+
+  .details-section ul li,
+  .expectation-section ul li {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .landing-name {
+    font-size: 1.8rem;
+  }
+
+  .landing-text {
+    font-size: 0.9rem;
+    line-height: 1.6;
+  }
+
+  .slider-item {
+    flex: 0 0 auto;
+  }
+
+  .slider-image {
+    width: 120px;
+    height: 80px;
+  }
+
+  .nav-button {
+    font-size: 1.2rem;
+    padding: 0.3rem 0.6rem;
+  }
+
+  .slider-item.active .slider-image {
+    transform: scale(1.1);
+    box-shadow: 0 0 6px #FFD700;
+  }
+
+  /* Additional Responsive Adjustments for Modals */
+  .horoscope-modal h2,
+  .details-modal h2,
+  .family-modal h2,
+  .expectation-modal h2 {
+    font-size: 1.5rem;
+  }
+
+  .horoscope-modal h3,
+  .details-modal h3,
+  .family-modal h3,
+  .expectation-modal h3 {
+    font-size: 1.2rem;
+  }
+
+  .planet-card h4 {
+    font-size: 1.1rem;
+  }
+
+  .trait-col h3,
+  .expectation-section h3 {
+    font-size: 1.1rem;
+  }
+
+  .zodiac-match p,
+  .family-section p,
+  .expectation-section p {
+    font-size: 0.9rem;
+  }
+}
