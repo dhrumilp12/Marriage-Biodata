@@ -39,7 +39,7 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  background: url('https://sky-warrior.s3.us-east-2.amazonaws.com/images/hero.jpg') center center no-repeat;
+  background: url('https://marriagebiodata.s3.us-east-1.amazonaws.com/Image+(2).jpg') center center no-repeat;
   background-size: cover;
   filter: grayscale(100%);
   z-index: -2;

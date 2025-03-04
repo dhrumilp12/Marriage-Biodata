@@ -4,10 +4,10 @@ import './LandingPage.css';
 
 // Array of images
 const images = [
-  'https://sky-warrior.s3.us-east-2.amazonaws.com/images/Image1.jpg',
-  'https://sky-warrior.s3.us-east-2.amazonaws.com/images/Image2.jpg',
-  'https://sky-warrior.s3.us-east-2.amazonaws.com/images/Image3.jpg',
-  'https://sky-warrior.s3.us-east-2.amazonaws.com/images/Image4.jpg',
+  'https://marriagebiodata.s3.us-east-1.amazonaws.com/Image+(4).jpg',
+  'https://marriagebiodata.s3.us-east-1.amazonaws.com/Image+(2).jpg',
+  'https://marriagebiodata.s3.us-east-1.amazonaws.com/Image+(3).jpg',
+  'https://marriagebiodata.s3.us-east-1.amazonaws.com/Image+(5).jpg',
 ];
 
 export default function LandingPage() {
